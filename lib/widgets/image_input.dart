@@ -35,7 +35,7 @@ class _InputImageState extends State<InputImage> {
     // getting the file name
     final fileName = path.basename(pickedFile.path);
     // copying and saving the file to the device storage at the specified path
-    final savedFile = await File(pickedFile.path).copy('${appDir}/${fileName}');
+    final savedFile = await File(pickedFile.path).copy('${appDir.path}/$fileName');
     widget.onSelectImage(savedFile);
   }
 
@@ -55,7 +55,7 @@ class _InputImageState extends State<InputImage> {
                 alignment: Alignment.center,
               ),
         alignment: Alignment.center,
-        width: 100,
+        width: 150,
         height: 100,
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.grey),
