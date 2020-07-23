@@ -9,6 +9,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="GreatPlaces"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBkIxHiNQOhcseoyUiSGJsLwteeSb3UXXo"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -29,6 +31,8 @@
                  screen fades out. A splash screen is useful to avoid any visual
                  gap between the end of Android's launch screen and the painting of
                  Flutter's first frame. -->
+            
+
             <meta-data
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
