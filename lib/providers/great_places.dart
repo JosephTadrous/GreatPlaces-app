@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/place.dart';
 import '../helpers/db_helper.dart';
+import '../helpers/location_helper.dart';
 
 class GreatPlaces with ChangeNotifier {
   List<Place> _items = [];
@@ -12,18 +13,32 @@ class GreatPlaces with ChangeNotifier {
     return [..._items]; // return a copy of _items
   }
 
-  void addPlace(String pickedTitle, File pickedImage) {
+  Place findById(String id) {
+    return _items.firstWhere((place) => place.id == id);
+  }
+
+  Future<void> addPlace(String pickedTitle, File pickedImage,
+      PlaceLocation pickedLocation) async {
+    final address = await LocationHelper.getPlaceAddress(
+        pickedLocation.latitude, pickedLocation.longitude);
+    final updatedLocation = PlaceLocation(
+        latitude: pickedLocation.latitude,
+        longitude: pickedLocation.longitude,
+        address: address);
     final newPlace = Place(
         id: DateTime.now().toString(),
         title: pickedTitle,
         image: pickedImage,
-        location: null);
+        location: updatedLocation);
     _items.add(newPlace);
     notifyListeners();
     DbHelper.insert('user_places', {
       'id': newPlace.id,
       'title': newPlace.title,
-      'image': newPlace.image.path
+      'image': newPlace.image.path,
+      'loc_lat': newPlace.location.latitude,
+      'loc_lng': newPlace.location.longitude,
+      'loc_address': newPlace.location.address,
     });
   }
 
@@ -32,10 +47,14 @@ class GreatPlaces with ChangeNotifier {
     _items = placesList
         .map(
           (place) => Place(
-              id: place['id'],
-              title: place['title'],
-              image: File(place['image']),
-              location: null),
+            id: place['id'],
+            title: place['title'],
+            image: File(place['image']),
+            location: PlaceLocation(
+                latitude: place['loc_lat'],
+                longitude: place['loc_lng'],
+                address: place['loc_address']),
+          ),
         )
         .toList();
     notifyListeners();
