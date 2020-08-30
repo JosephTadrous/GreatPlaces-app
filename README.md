@@ -10,6 +10,7 @@ Android application developed using Flutter to help you save all the memorable &
   - Capture the places' photos using your native mobile camera.
   - Auto-detect your current location.
   - Pick your place's location using Google Maps.
+  - Detect the written address via the captured location.
 
 ## Screenshots
 Places List           |  Place Details
